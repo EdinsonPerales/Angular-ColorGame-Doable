@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, signal } from '@angular/core';
-import { getRandomColors, getStatus, rgbString } from './utils';
+import { getColorName, getRandomColors, getStatus, rgbString } from './utils';
 import { Color } from './interfaces';
 import { CommonModule } from '@angular/common';
 
@@ -14,7 +14,19 @@ import { CommonModule } from '@angular/common';
         Guess which color correspond to the following RGB code
       </p>
 
-      <div class="rgb-wrapper">{{ rgbString(colors()[target()]) }}</div>
+      <div class="rgb-wrapper">
+      @for(primary of colors()[target()]; track $index){
+          <div class="rgb"
+               [ngClass]="'border-' + getColorName($index)">
+            <p class="color-number">
+              {{primary}}
+            </p>
+            <p class="color-name">
+              {{getColorName($index)}}
+            </p>
+          </div>
+        }
+      </div>
       <div class="dashboard">
         <div class="number-input">
           <label for="colors"># Colors</label>
@@ -49,6 +61,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ColorGameComponent {
   rgbString      = rgbString;
+  getColorName   = getColorName;
   statusMessages = {
     playing : 'The game is on!',
     win     : 'You won!',

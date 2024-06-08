@@ -26,3 +26,16 @@ export function getStatus(
   if (attempts.includes(target)) return 'win';
   return 'playing';
 }
+
+export function getColorName(n: number) : string{
+  switch (n) {
+    case 0:
+      return 'red';
+    case 1:
+      return 'green';
+    case 2:
+      return 'blue';
+    default:
+      return 'error';
+  }
+}
