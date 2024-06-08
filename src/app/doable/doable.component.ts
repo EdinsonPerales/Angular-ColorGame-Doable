@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthenticatedComponent } from './ui/authenticated/authenticated.component';
 import { UnauthenticatedComponent } from './ui/unauthenticated/unauthenticated.component';
+import { AuthService } from './data-access/services/auth.service';
 
 @Component({
   selector: 'app-doable',
@@ -21,4 +22,6 @@ import { UnauthenticatedComponent } from './ui/unauthenticated/unauthenticated.c
 })
 export class DoableComponent {
   isAuthenticated = false;
+  provser = inject(AuthService);
+
 }
