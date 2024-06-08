@@ -48,7 +48,7 @@ import { CommonModule } from '@angular/common';
         <button
           [ngStyle]="{
             'background-color': getBackgroundColor(color),
-            opacity: attempts().includes($index) ? '0' : '100'
+            opacity: getOpacity($index)
           }"
           (click)="handleAttempt($index)"
           class="square"
@@ -87,6 +87,13 @@ export class ColorGameComponent {
     return (status === 'win' || status === 'lose')
            ?rgbString(this.colors()[this.target()])
            :rgbString(color);
+  }
+
+  getOpacity(index : number){
+    const status = this.status();
+    return (status === 'win' || status === 'lose')
+           ?'100'
+           :(this.attempts().includes(index) ? '0' : '100')
   }
 
   handleChangeNumber(event: Event) {
