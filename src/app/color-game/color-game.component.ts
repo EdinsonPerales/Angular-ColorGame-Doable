@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, signal } from '@angular/core';
 import { getColorName, getRandomColors, getStatus, rgbString } from './utils';
 import { Color } from './interfaces';
 import { CommonModule } from '@angular/common';
@@ -73,6 +73,14 @@ export class ColorGameComponent {
   colors      = computed(() => getRandomColors(this.numOfColors()));
   target      = computed(() =>  Math.floor(Math.random() * this.numOfColors()));
   status      = computed(() => getStatus(this.attempts(),this.target(),this.numOfColors()));
+
+  constructor(){
+    effect(() =>{
+      if (this.status() === 'win' || this.status() === "lose") {
+        this.disabled = true;
+      }
+    })
+  }
 
   handleChangeNumber(event: Event) {
     const inputElement = event.target as HTMLInputElement;
