@@ -48,21 +48,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './color-game.component.css',
 })
 export class ColorGameComponent {
-  rgbString = rgbString;
-  numOfColors = signal(6);
+  rgbString      = rgbString;
   statusMessages = {
-    playing: 'The game is on!',
-    win: 'You won!',
-    lose: 'You lose!',
+    playing : 'The game is on!',
+    win     : 'You won!',
+    lose    : 'You lose!',
   };
-
-  attempts = signal<number[]>([]);
-  // colors = getRandomColors(this.numOfColors);
-  colors = computed(() => getRandomColors(this.numOfColors()));
-  // target = Math.floor(Math.random() * this.colors.length);
-  target = computed(() =>  Math.floor(Math.random() * this.numOfColors()));
-  // status = getStatus(this.attempts, this.target, this.numOfColors);
-  status = computed(() => getStatus(this.attempts(),this.target(),this.numOfColors()));
+  numOfColors = signal(6);
+  attempts    = signal<number[]>([]);
+  colors      = computed(() => getRandomColors(this.numOfColors()));
+  target      = computed(() =>  Math.floor(Math.random() * this.numOfColors()));
+  status      = computed(() => getStatus(this.attempts(),this.target(),this.numOfColors()));
 
   handleChangeNumber(event: Event) {
     // completar
