@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
             id="colors"
             type="number"
             [value]="numOfColors()"
-            (change)="handleChangeNumber($event)"
+            (input)="handleChangeNumber($event)"
             step="3"
             min="3"
             max="9"
@@ -74,7 +74,21 @@ export class ColorGameComponent {
   status      = computed(() => getStatus(this.attempts(),this.target(),this.numOfColors()));
 
   handleChangeNumber(event: Event) {
-    // completar
+    const inputElement = event.target as HTMLInputElement;
+    let squaresAmount = inputElement.valueAsNumber;
+    const allowedValues = [3,6,9];
+
+    if(!allowedValues.includes(squaresAmount)){
+      squaresAmount = this.numOfColors();
+      inputElement.value = squaresAmount.toString();
+      return;
+    }
+
+    if (squaresAmount === this.numOfColors()) return;
+
+    inputElement.value = squaresAmount.toString();
+    this.numOfColors.set(squaresAmount);
+    this.attempts.set([]);
   }
 
   handleReset() {
