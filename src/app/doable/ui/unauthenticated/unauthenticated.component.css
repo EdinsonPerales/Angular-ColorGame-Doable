@@ -20,21 +20,55 @@
   background: var(--muted, #F5F5F5);
 }
 
-.auth-buttons{
+.form-container{
+  display: flex;
+  padding: var(--spacing-4, 16px) var(--spacing-2, 8px);
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
+.form-sub-container{
+  display: flex;
+  max-width: var(--width-xs, 320px);
+  flex-direction: column;
+  /* align-items: center; */
+  gap: var(--spacing-4, 16px);
+  align-self: stretch;
+}
+
+.form-field{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2, 8px);
+  align-self: stretch;
+}
+
+.center{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+label{
+  color: var(--foreground, #171717);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 100% */
+}
+
+input{
   /* layout */
   display: flex;
-  width: var(--spacing-24, 96px);
-  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
-  justify-content: center;
-  align-items: center;
+  height: 40px;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
   /* styles */
-  border-radius: var(--rounded-lg, 8px);
+  border-radius: var(--rounded-md, 6px);
+  border: 1px solid var(--border, #D4D4D4);
   background: var(--background, #FFF);
-  /* typography */
-  color: var(--muted-foreground, #525252);
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 28px; /* 175% */
 }

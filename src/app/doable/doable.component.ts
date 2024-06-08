@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
       @if (isAuthenticated) {
       <app-authenticated />
       } @else {
-      <app-unauthenticated />
+      <app-unauthenticated/>
       }
     </div>
   `,
