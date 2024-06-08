@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   template: `
     <div class="wrapper">
       <header class="header">
-        <a class="logo" href="/"
+        <a class="logo" routerLink="/"
           ><img src="assets/angular.svg" />Angular Evaluation</a
         >
         <nav class="nav">

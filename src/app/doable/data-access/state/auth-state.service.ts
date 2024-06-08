@@ -41,7 +41,7 @@ export class AuthStateService {
       takeUntilDestroyed(),
       tap(() => this.#setLoading(true)),
       switchMap((credentials)=>
-        this.#authService.login(credentials).pipe(this.#setCatchError<AuthResponse>()))
+        this.#authService.login(credentials).pipe(this.#setCatchError()))
     ).subscribe((token:any)=>{
       this.#setLoading(false);
       this.#setToken(token);
@@ -53,12 +53,22 @@ export class AuthStateService {
       takeUntilDestroyed(),
       tap(() => this.#setLoading(true)),
       switchMap((credentials)=>
-        this.#authService.login(credentials).pipe(this.#setCatchError<AuthResponse>()))
+        this.#authService.signup(credentials).pipe(this.#setCatchError()))
     ).subscribe((token:any)=>{
       this.#setLoading(false);
       this.#setToken(token);
       this.#setError(null);
       localStorage.setItem('token',token);
+    })
+
+    this.logout$.pipe(
+      takeUntilDestroyed(),
+      tap(() => this.#setLoading(true)),
+      switchMap((credentials)=>
+        this.#authService.logout(this.token()||'').pipe(this.#setCatchError()))
+    ).subscribe(()=>{
+      this.#resetAuthState();
+      localStorage.clear();
     })
   }
 
@@ -98,8 +108,8 @@ export class AuthStateService {
     })
   }
 
-  #setCatchError<T>() {
-    return catchError((error: any): Observable<T> => {
+  #setCatchError() {
+    return catchError((error: any) => {
       this.#resetAuthState();
       this.#setError(error);
       return NEVER;

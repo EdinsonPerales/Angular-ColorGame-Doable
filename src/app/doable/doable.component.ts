@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { AuthenticatedComponent } from './ui/authenticated/authenticated.component';
 import { UnauthenticatedComponent } from './ui/unauthenticated/unauthenticated.component';
-import { AuthService } from './data-access/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-doable',
   standalone: true,
-  imports: [AuthenticatedComponent, UnauthenticatedComponent],
+  imports: [AuthenticatedComponent, UnauthenticatedComponent,CommonModule],
   template: `
     <div class="wrapper">
       <h1 class="title">Doable</h1>
@@ -22,6 +22,5 @@ import { AuthService } from './data-access/services/auth.service';
 })
 export class DoableComponent {
   isAuthenticated = false;
-  provser = inject(AuthService);
 
 }

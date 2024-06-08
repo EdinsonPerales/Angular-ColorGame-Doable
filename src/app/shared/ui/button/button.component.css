@@ -19,3 +19,22 @@ button{
   font-weight: 500;
   line-height: 20px; /* 142.857% */
 }
+
+.auth-buttons{
+  /* layout */
+  display: flex;
+  width: var(--spacing-24, 96px);
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+  justify-content: center;
+  align-items: center;
+  /* styles */
+  border-radius: var(--rounded-lg, 8px);
+  background: var(--background, #FFF);
+  /* typography */
+  color: var(--muted-foreground, #525252);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 175% */
+}
