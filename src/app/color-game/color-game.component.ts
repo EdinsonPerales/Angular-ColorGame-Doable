@@ -78,7 +78,8 @@ export class ColorGameComponent {
   }
 
   handleReset() {
-    //completar
+    this.attempts.set([]);
+    this.numOfColors.update((actual) => actual);
   }
 
   handleAttempt() {
