@@ -1,0 +1,20 @@
+button{
+  /* layout */
+  display: flex;
+  height: 40px;
+  padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  /* style */
+  border-radius: var(--rounded-md, 6px);
+  background: var(--primary, #6D28D9);
+  border: 0;
+  /* typopraphy */
+  color: var(--primary-foreground, #FFF);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
