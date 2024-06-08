@@ -109,6 +109,7 @@ export class ColorGameComponent {
 
     if (squaresAmount === this.numOfColors()) return;
 
+    this.disabled = false;
     inputElement.value = squaresAmount.toString();
     this.numOfColors.set(squaresAmount);
     this.attempts.set([]);
