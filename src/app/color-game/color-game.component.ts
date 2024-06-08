@@ -48,11 +48,11 @@ import { CommonModule } from '@angular/common';
         <button
           [ngStyle]="{
             'background-color': rgbString(color),
-            opacity: '100'
+            opacity: attempts().includes($index) ? '0' : '100'
           }"
           (click)="handleAttempt($index)"
           class="square"
-        ></button>
+        [disabled]="disabled"></button>
         }
       </div>
     </div>
@@ -67,6 +67,7 @@ export class ColorGameComponent {
     win     : 'You won!',
     lose    : 'You lose!',
   };
+  disabled    = false;
   numOfColors = signal(6);
   attempts    = signal<number[]>([]);
   colors      = computed(() => getRandomColors(this.numOfColors()));
