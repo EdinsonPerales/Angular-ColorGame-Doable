@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { getRandomColors, getStatus, rgbString } from './utils';
 import { Color } from './interfaces';
 import { CommonModule } from '@angular/common';
@@ -14,25 +14,25 @@ import { CommonModule } from '@angular/common';
         Guess which color correspond to the following RGB code
       </p>
 
-      <div class="rgb-wrapper">{{ rgbString(colors[target]) }}</div>
+      <div class="rgb-wrapper">{{ rgbString(colors()[target()]) }}</div>
       <div class="dashboard">
         <div class="number-input">
           <label for="colors"># Colors</label>
           <input
             id="colors"
             type="number"
-            [value]="numOfColors"
+            [value]="numOfColors()"
             (change)="handleChangeNumber($event)"
             step="3"
             min="3"
             max="9"
           />
         </div>
-        <p class="game-status">{{ statusMessages[status] }}</p>
+        <p class="game-status">{{ statusMessages[status()] }}</p>
         <button onClick="{handleReset}">Reset</button>
       </div>
       <div class="squares">
-        @for (color of colors; track $index) {
+        @for (color of colors(); track $index) {
         <button
           [ngStyle]="{
             'background-color': rgbString(color),
@@ -49,17 +49,20 @@ import { CommonModule } from '@angular/common';
 })
 export class ColorGameComponent {
   rgbString = rgbString;
-  numOfColors = 6;
+  numOfColors = signal(6);
   statusMessages = {
     playing: 'The game is on!',
     win: 'You won!',
     lose: 'You lose!',
   };
 
-  attempts: number[] = [];
-  colors = getRandomColors(this.numOfColors);
-  target = Math.floor(Math.random() * this.colors.length);
-  status = getStatus(this.attempts, this.target, this.numOfColors);
+  attempts = signal<number[]>([]);
+  // colors = getRandomColors(this.numOfColors);
+  colors = computed(() => getRandomColors(this.numOfColors()));
+  // target = Math.floor(Math.random() * this.colors.length);
+  target = computed(() =>  Math.floor(Math.random() * this.numOfColors()));
+  // status = getStatus(this.attempts, this.target, this.numOfColors);
+  status = computed(() => getStatus(this.attempts(),this.target(),this.numOfColors()));
 
   handleChangeNumber(event: Event) {
     // completar
