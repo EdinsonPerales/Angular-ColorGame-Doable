@@ -50,7 +50,7 @@ import { CommonModule } from '@angular/common';
             'background-color': rgbString(color),
             opacity: '100'
           }"
-          (click)="handleAttempt()"
+          (click)="handleAttempt($index)"
           class="square"
         ></button>
         }
@@ -96,7 +96,8 @@ export class ColorGameComponent {
     this.numOfColors.update((actual) => actual);
   }
 
-  handleAttempt() {
-    // completar
+  handleAttempt(index:number) {
+    if(this.attempts().includes(index)) return;
+    this.attempts.update( (array) => [...array,index] );
   }
 }
