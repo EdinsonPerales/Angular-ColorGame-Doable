@@ -67,6 +67,10 @@
   background: var(--background-hover, #e6e6e6);
 }
 
+.active{
+  background: var(--background-active, #e6e6e6);
+}
+
 .main {
   max-width: var(--width-7xl, 1280px);
   width: 100%;

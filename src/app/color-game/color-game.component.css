@@ -42,6 +42,18 @@
   border: 4px solid;
 }
 
+.border-red{
+  border: 4px solid hsla(0, 100%, 50%, 1);
+}
+
+.border-green{
+  border: 4px solid hsla(120, 100%, 50%, 1);
+}
+
+.border-blue{
+  border: 4px solid hsla(240, 100%, 50%, 1);
+}
+
 .color-number {
   text-align: center;
   font-size: var(--font-2xl);
