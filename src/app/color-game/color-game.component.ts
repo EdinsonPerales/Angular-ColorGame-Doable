@@ -46,14 +46,14 @@ import { ButtonComponent } from '../shared/ui/button/button.component';
       </div>
       <div class="squares">
         @for (color of colors(); track $index) {
-        <button
-          [ngStyle]="{
+        <app-button
+          [customStyles]="{
             'background-color': getBackgroundColor(color),
             opacity: getOpacity($index)
           }"
           (click)="handleAttempt($index)"
           class="square"
-        [disabled]="disabled"></button>
+          [disabled]="disabled"></app-button>
         }
       </div>
     </div>
