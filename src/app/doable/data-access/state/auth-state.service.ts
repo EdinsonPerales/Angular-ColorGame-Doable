@@ -1,8 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NEVER, Observable, Subject, catchError, of, switchMap, tap } from 'rxjs';
+import { NEVER, Subject, catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { AuthResponse, AuthState, AuthUser } from '../../interfaces/auth.interface';
+import { AuthState, AuthUser } from '../../interfaces/auth.interface';
 import { TasksService } from '../services/tasks.service';
 
 
@@ -13,6 +13,7 @@ export class AuthStateService {
 
   #authService  = inject(AuthService);
   #tasksService = inject(TasksService);
+
   //sources
   login$      = new Subject<AuthUser>();
   signup$     = new Subject<AuthUser>();
