@@ -1,8 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NEVER, Observable, Subject, catchError, switchMap, tap } from 'rxjs';
+import { NEVER, Observable, Subject, catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { AuthResponse, AuthState, AuthUser } from '../../interfaces/auth.interface';
+import { TasksService } from '../services/tasks.service';
 
 
 @Injectable({
@@ -10,8 +11,8 @@ import { AuthResponse, AuthState, AuthUser } from '../../interfaces/auth.interfa
 })
 export class AuthStateService {
 
-  #authService = inject(AuthService);
-
+  #authService  = inject(AuthService);
+  #tasksService = inject(TasksService);
   //sources
   login$      = new Subject<AuthUser>();
   signup$     = new Subject<AuthUser>();
@@ -33,8 +34,14 @@ export class AuthStateService {
   constructor(){
     const initialToken = localStorage.getItem('token');
     if(initialToken){
-      this.#resetAuthState();
       this.#setToken(initialToken);
+      this.#tasksService.getListTasks(this.token()||'').pipe(
+        catchError( () => {
+          this.#resetAuthState();
+          localStorage.clear();
+          return of(null);
+        })
+      ).subscribe();
     }
 
     this.login$.pipe(
@@ -64,7 +71,7 @@ export class AuthStateService {
     this.logout$.pipe(
       takeUntilDestroyed(),
       tap(() => this.#setLoading(true)),
-      switchMap((credentials)=>
+      switchMap(()=>
         this.#authService.logout(this.token()||'').pipe(this.#setCatchError()))
     ).subscribe(()=>{
       this.#resetAuthState();

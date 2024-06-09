@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     [ngStyle]="customStyles"
     [disabled]="disabled"
     (click)="onClick()"
-    [type]="type"]>
+    [type]="type">
       <ng-content/>
     </button>
   `,
