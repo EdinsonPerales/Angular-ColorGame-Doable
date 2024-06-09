@@ -43,6 +43,7 @@ export class TasksStateService {
       const orderTasks = this.#sortTasksOldFirst(tasks);
       this.#setLoading(false);
       this.#setTasks(orderTasks);
+      this.#setError(null);
     });
 
     this.createTask$.pipe(
@@ -52,6 +53,7 @@ export class TasksStateService {
         this.#tasksService.createTask(this.#token()||'',data).pipe(this.#setCatchError()))
     ).subscribe((task)=>{
       this.#addTask(task);
+      this.#setError(null);
     })
 
     this.editTask$.pipe(
@@ -63,6 +65,7 @@ export class TasksStateService {
       const updatedTasks = this.#updateTasksAfterUpdation(this.tasks()!,task);
       this.#setLoading(false);
       this.#setTasks(updatedTasks);
+      this.#setError(null);
     });
 
     this.deleteTask$.pipe(
@@ -77,13 +80,71 @@ export class TasksStateService {
       const updatedTasks = this.#updateTasksAfterDeletion(this.tasks()!,id);
       this.#setLoading(false);
       this.#setTasks(updatedTasks);
+      this.#setError(null);
     });
 
     this.sortTasksBy$.pipe(
       takeUntilDestroyed(),
       tap(() => this.#setLoading(true)),
+      switchMap( (sortBy) =>
+        this.#tasksService.getListTasks(this.#token()||'').pipe(
+          map( tasks => ({tasks,sortBy}) ),
+          this.#setCatchError()
+      ))
     ).subscribe(
+      ({tasks,sortBy}:any) =>{
+        let orderTasks = [];
+        switch (sortBy) {
+          case 'old_first':
+            orderTasks = this.#sortTasksOldFirst(tasks);
+            break;
+          case 'new_first':
+            orderTasks = this.#sortTasksNewFirst(tasks);
+            break;
+          case 'a-z':
+            orderTasks = this.#sortTasksByTitleAsc(tasks);
+            break;
+          case 'z-a':
+            orderTasks = this.#sortTasksByTitleDesc(tasks);
+            break;
+          default:
+            break;
+        }
+        this.#setTasks(tasks);
+        this.#setLoading(false);
+        this.#setError(null);
+      }
+    );
 
+    this.filterTaskBy$.pipe(
+      takeUntilDestroyed(),
+      tap(() => this.#setLoading(true)),
+      switchMap( (filterBy) =>
+        this.#tasksService.getListTasks(this.#token()||'').pipe(
+          map( tasks => ({tasks,filterBy}) ),
+          this.#setCatchError()
+      ))
+    ).subscribe(
+      ({tasks,filterBy}:any) =>{
+        let filterTasks:Task[] = [];
+        switch (filterBy) {
+          case 'pending':
+            filterTasks = this.#filterTaskByPending(tasks);
+            break;
+          case 'important':
+            filterTasks = this.#filterTaskByImportant(tasks);
+            break;
+          case 'both':
+            filterTasks = this.#filterTaskByImportant(tasks);
+            filterTasks = this.#filterTaskByPending(filterTasks);
+            break;
+          default:
+            break;
+        }
+        this.#setTasks(filterTasks);
+        this.#setLoading(false);
+        this.#setError(null);
+      }
     );
   };
 
@@ -160,6 +221,14 @@ export class TasksStateService {
       if (b.due_date === null) return -1;
       return new Date(b.due_date).getTime() - new Date(a.due_date).getTime();
     });
+  }
+
+  #filterTaskByPending(tasks : Task[]) : Task[]{
+    return tasks.filter(task => task.completed === false);
+  }
+
+  #filterTaskByImportant(tasks : Task[]) : Task[]{
+    return tasks.filter(task => task.important === true);
   }
 
   #updateTasksAfterUpdation(tasks: Task[], updatedTask: Task): Task[] {
